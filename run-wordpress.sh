@@ -1,4 +1,20 @@
 #!/bin/bash
+
+if [ -L /app/wordpress ]; then
+  echo "/app/wordpress is a symlink, good."
+else
+  if [ -d /app/wordpress ]; then
+    echo "/app/wordpress is a directory, removing..."
+    rm -rf /app/wordpress
+  fi
+  if [ -e /app/wordpress ]; then
+    echo "/app/wordpress is a file or something, removing..."
+    rm -f /app/wordpress
+  fi
+  echo "symlinking from /app/wordpress to /wordpress"
+  ln -s /wordpress /app/wordpress
+fi
+
 if [ -f /.mysql_db_created ]; then
         exec /run.sh
         exit 1
